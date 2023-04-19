@@ -304,11 +304,100 @@ const HomePage = ({ ResponseFromHome }) => {
               d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
             />
           </svg>
-          <span>Existing data for the Filter</span>
+          <span>{ filterConstant ? "Existing data for the Filter":"No Filter Chosen! Choose now." }</span>
         </div>
         <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
-          {/* <Image src='/images/user-database.webp' width={200} height={200} />
-          <span>Existing Usernames for the filter</span> */}
+          {filterConstant ? (
+            <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[200px] overflow-scroll'>
+              <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+                <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
+                  <tr
+                    className={`${
+                      filterConstant === 'classical'
+                        ? 'bg-classical-200'
+                        : `${filterConstant}` === `counting`
+                        ? 'bg-counting-200'
+                        : `${filterConstant}` === `scalabale`
+                        ? 'bg-scalable-200'
+                        : `${filterConstant}` === `partitioned`
+                        ? 'bg-partitioned-200'
+                        : `${filterConstant}` === `cuckoo`
+                        ? 'bg-cuckoo-200'
+                        : 'bg-default-200'
+                    }`}
+                  >
+                    <th
+                      scope='col'
+                      className='px-6 py-3  dark:bg-gray-800 tracking-widest'
+                    >
+                      ID
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Input Type
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-6 py-3  dark:bg-gray-800 tracking-widest'
+                    >
+                      Data
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Timestamp
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Timestamp
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Timestamp
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Timestamp
+                    </th>
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
+                      Timestamp
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleUser.map((user, index) => (
+                    <tr class='border-b border-gray-200 dark:border-gray-700'>
+                      <th
+                        scope='row'
+                        className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
+                      >
+                        {index + 1}
+                      </th>
+                      <td className='px-6 py-4'>{typeof user}</td>
+                      <td
+                        className={`px-6 py-4 bg-${filterConstant}-100 dark:bg-gray-800`}
+                      >
+                        {user}
+                      </td>
+                      <td className='px-6 py-4'>Not defined</td>
+                      <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                        Not defined
+                      </td>
+                      <td className='px-6 py-4'>Not defined</td>
+                      <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                        Not defined
+                      </td>
+                      <td className='px-6 py-4'>Not defined</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div>
+              <Image
+                src='/images/user-database.webp'
+                width={200}
+                height={200}
+              />
+              <span>Choose a Filter to Start</span>
+            </div>
+          )}
+
           {/* <div>Existing users in the database:</div> */}
           {/* <div className='leading-10 flex flex-wrap gap-2'> */}
           {/* {sampleUser.map((user, index) => (
@@ -322,85 +411,7 @@ const HomePage = ({ ResponseFromHome }) => {
           {/* </div> */}
           {/* //! Table Implementation */}
           {/* <div className='h-[250px] overflow-scroll p-0'> */}
-          <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[200px] overflow-scroll'>
-            <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-              <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
-                <tr
-                  className={`${
-                    filterConstant === 'classical'
-                      ? 'bg-classical-200'
-                      : `${filterConstant}` === `counting`
-                      ? 'bg-counting-200'
-                      : `${filterConstant}` === `scalabale`
-                      ? 'bg-scalable-200'
-                      : `${filterConstant}` === `partitioned`
-                      ? 'bg-partitioned-200'
-                      : `${filterConstant}` === `cuckoo`
-                      ? 'bg-cuckoo-200'
-                      : 'bg-default-200'
-                  }`}
-                >
-                  <th
-                    scope='col'
-                    className='px-6 py-3  dark:bg-gray-800 tracking-widest'
-                  >
-                    ID
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Input Type
-                  </th>
-                  <th
-                    scope='col'
-                    className='px-6 py-3  dark:bg-gray-800 tracking-widest'
-                  >
-                    Data
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Timestamp
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Timestamp
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Timestamp
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Timestamp
-                  </th>
-                  <th scope='col' className='px-6 py-3 tracking-widest'>
-                    Timestamp
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {sampleUser.map((user, index) => (
-                  <tr class='border-b border-gray-200 dark:border-gray-700'>
-                    <th
-                      scope='row'
-                      className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
-                    >
-                      {index + 1}
-                    </th>
-                    <td className='px-6 py-4'>{typeof user}</td>
-                    <td
-                      className={`px-6 py-4 bg-${filterConstant}-100 dark:bg-gray-800`}
-                    >
-                      {user}
-                    </td>
-                    <td className='px-6 py-4'>Not defined</td>
-                    <td className={`px-6 py-4 bg-${filterConstant}-100`}>
-                      Not defined
-                    </td>
-                    <td className='px-6 py-4'>Not defined</td>
-                    <td className={`px-6 py-4 bg-${filterConstant}-100`}>
-                      Not defined
-                    </td>
-                    <td className='px-6 py-4'>Not defined</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+
           {/* </div> */}
         </div>
         <div className='bg-white p-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
