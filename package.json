@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@textea/json-viewer": "^2.16.2",
     "axios": "^1.3.5",
     "next": "13.3.0",
     "react": "18.2.0",

@@ -13,10 +13,17 @@ module.exports = {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
       },
       gridTemplateColumns: {
-        contentColumnGrid : '250px auto'
-      }
+        contentColumnGrid: '250px auto',
+      },
+      colors: {
+        success: '#01a745',
+        failure: '#d22500',
+        linkGreen: '#2B7A0B',
+        warning: '#EBB02D',
+      },
     },
   },
   plugins: [],

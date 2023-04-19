@@ -1,35 +1,35 @@
 const filterData = [
   {
     id: 'classical_bloom_filter',
-    name: 'Classical Bloom FIlter',
+    name: 'Classical Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
     customRoute: '/api/classical',
     active: true,
   },
   {
-    id: 'cuckoo_filter',
-    name: 'Cuckoo FIlter',
+    id: 'counting_bloom_filter',
+    name: 'Counting Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
-    customRoute: '/api/cuckoo',
+    customRoute: '/api/counting',
+    active: true,
+  },
+  {
+    id: 'partitioned_bloom_filter',
+    name: 'Partitioned Filter',
+    baseRoute: 'https://blumea-serverless.vercel.app',
+    customRoute: '/api/partitioned',
     active: false,
   },
   {
-    id: 'classical_bloom_filter',
-    name: 'Classical Bloom FIlter',
+    id: 'scalable_bloom_filter',
+    name: 'Scalable Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
-    customRoute: '/api/classical',
+    customRoute: '/api/scalable',
     active: true,
   },
   {
     id: 'cuckoo_filter',
-    name: 'Cuckoo FIlter',
-    baseRoute: 'https://blumea-serverless.vercel.app',
-    customRoute: '/api/cuckoo',
-    active: false,
-  },
-  {
-    id: 'cuckoo_filter',
-    name: 'Cuckoo FIlter',
+    name: 'Cuckoo Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
     customRoute: '/api/cuckoo',
     active: false,
@@ -61,15 +61,15 @@ const FilterVarient = [
 
 const ApiActions = [
   {
-    id: 'fetch_all',
+    id: 'all',
     name: 'Fetch all username',
   },
   {
-    id: 'create_user',
+    id: 'create',
     name: 'Create user',
   },
   {
-    id: 'search_user',
+    id: 'search',
     name: 'Search user',
   },
 ]

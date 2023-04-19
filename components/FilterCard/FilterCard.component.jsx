@@ -1,14 +1,14 @@
 const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
   return (
-    <div className='bg-white max-w-xs w-full rounded-lg p-4 relative drop-shadow-md text-sm'>
-      <div className='absolute flex gap-2 right-3 font-inter'>
+    <div className='bg-white max-w-xs w-full rounded-lg pt-6 pb-4 px-4 relative drop-shadow-md text-sm'>
+      <div className='absolute flex gap-2 right-3 font-mono top-2 items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
           strokeWidth='1.5'
           stroke='currentColor'
-          class='w-6 h-6'
+          className='w-6 h-6 text-slate-500'
         >
           <path
             strokeLinecap='round'
@@ -18,23 +18,23 @@ const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
         </svg>
         <span
           className={`${
-            active ? 'bg-[#01a745]' : 'bg-[#d22500]'
-          } text-white p-1 rounded-md text-sm font-light`}
+            active ? 'bg-success' : 'bg-failure'
+          } text-white py-1 px-2 rounded-md text-sm font-light`}
         >
-          {active ? 'Enabled' : 'Disabled'}
+          {active ? 'Active' : 'Inactive'}
         </span>
       </div>
       <div className='my-1'>
-        <h3 className='font-jakarta font-light'>Filter Name</h3>
-        <h3 className='font-inter'>{name}</h3>
+        <h3 className='font-mono font-light text-slate-500'>Filter Name</h3>
+        <h3 className='font-mono'>{name}</h3>
       </div>
-      <div className='my-1'>
-        <h3 className='font-jakarta font-light'>Base Route</h3>
+      {/* <div className='my-1'>
+        <h3 className='font-jakarta font-light text-slate-500'>Base Route</h3>
         <h3 className='font-inter'>{baseRoute}</h3>
-      </div>
+      </div> */}
       <div className='my-1'>
-        <h3 className='font-jakarta font-light'>API Route</h3>
-        <h3 className='font-inter'>{customRoute}</h3>
+        <h3 className='font-mono font-light text-slate-500'>API Route</h3>
+        <h3 className='font-mono'>{customRoute}</h3>
       </div>
       <div></div>
     </div>
