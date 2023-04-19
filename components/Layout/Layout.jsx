@@ -4,7 +4,7 @@ const Layout = (props) => {
   return (
     <>
       <Header />
-      <main className='bg-[#ecf0f3] min-h-[95vh]'>{props.children}</main>
+      <main className='bg-[#ecf0f3]'>{props.children}</main>
     </>
   )
 }

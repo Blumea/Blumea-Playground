@@ -1,8 +1,14 @@
 import EndpointMonitor from '@/components/EndpointMonitor/EndpointMonitor.component'
 import FilterCard from '@/components/FilterCard/FilterCard.component'
-import { filterData, FilterVarient, ApiActions } from '@/data/FilterData'
+import {
+  filterData,
+  FilterVarient,
+  ApiActions,
+  sampleUser,
+} from '@/data/FilterData'
 import { JsonViewer } from '@textea/json-viewer'
 import axios from 'axios'
+import Image from 'next/image'
 import { useState } from 'react'
 
 const HomePage = ({ ResponseFromHome }) => {
@@ -10,14 +16,20 @@ const HomePage = ({ ResponseFromHome }) => {
   const [apiActionConstant, setApiActionConstant] = useState('')
   const [username, setUserName] = useState('')
   const [data, setData] = useState(ResponseFromHome)
-  const [statusCode,setStatusCode] = useState(200)
+  const [statusCode, setStatusCode] = useState(200)
+  const [userdata, setUserData] = useState()
 
   const handleApiCall = async () => {
     let responseData
     const customURL = `https://blumea-serverless.vercel.app${
       filterConstant && `/api/${filterConstant}`
     }${apiActionConstant && `/${apiActionConstant}`}${
-      username && apiActionConstant !== 'all' && filterConstant && apiActionConstant ? `?item=${username}` : ``
+      username &&
+      apiActionConstant !== 'all' &&
+      filterConstant &&
+      apiActionConstant
+        ? `?item=${username}`
+        : ``
     }`
     const config = {
       headers: {
@@ -223,7 +235,6 @@ const HomePage = ({ ResponseFromHome }) => {
           className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 w-full my-8 justify-center'
           onClick={handleApiCall}
         >
-
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -241,7 +252,145 @@ const HomePage = ({ ResponseFromHome }) => {
           Execute Request
         </button>
       </div>
-      <div className='mt-4 ml-3'>
+      <div className='mt-4 mb-8 ml-3'>
+        <div className='bg-white h-[200px] mb-4 rounded-lg drop-shadow-md p-4 flex flex-wrap justify-start items-start gap-2'>
+          {/* <Image src='/images/user-database.webp' width={200} height={200} />
+          <span>Existing Usernames for the filter</span> */}
+          <div>Existing users in the database:</div>
+          <div className='leading-10 flex flex-wrap gap-2'>
+            {sampleUser.map((user, index) => (
+              <span
+                key={index}
+                className='bg-[#94AF9F] py-1 px-2 text-white rounded-md'
+              >
+                {user}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className='bg-white h-[200px] mb-12 rounded-lg drop-shadow-md grid grid-cols-2'>
+          <div className='p-4 border-r relative'>
+            <div className='flex gap-2 my-3'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                />
+              </svg>
+
+              <span>User-name (Data)</span>
+            </div>
+            <input
+              type='text'
+              id='large-input'
+              placeholder='Enter a username ...'
+              disabled={
+                (!filterConstant && !apiActionConstant) ||
+                apiActionConstant == 'all'
+              }
+              onChange={(e) => setUserName(e.target.value)}
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <button
+              type='button'
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2'
+              onClick={handleApiCall}
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+                />
+              </svg>
+              Create User
+            </button>
+          </div>
+          <div className='p-4 relative'>
+            <div className='flex gap-2 my-3'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                />
+              </svg>
+
+              <span>User-name (Data)</span>
+            </div>
+            <input
+              type='text'
+              id='large-input'
+              placeholder='Enter a username ...'
+              disabled={
+                (!filterConstant && !apiActionConstant) ||
+                apiActionConstant == 'all'
+              }
+              onChange={(e) => setUserName(e.target.value)}
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+            <button
+              type='button'
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2'
+              onClick={handleApiCall}
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+                />
+              </svg>
+              Search User
+            </button>
+          </div>
+        </div>
+        <div className='bg-white drop-shadow-md rounded-lg mb-4 p-4 flex gap-2'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='currentColor'
+            className='w-6 h-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z'
+            />
+          </svg>
+          <span>Advanced Developer Section</span>
+        </div>
         <div className='flex gap-2'>
           {filterData.map((filterType) => (
             <FilterCard
@@ -258,7 +407,7 @@ const HomePage = ({ ResponseFromHome }) => {
           variantType={filterConstant}
           actionType={apiActionConstant}
           userName={username}
-          statusCode = {statusCode}
+          statusCode={statusCode}
         />
         <div className='h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px]'>
           <JsonViewer value={data.data ? data.data : data} />

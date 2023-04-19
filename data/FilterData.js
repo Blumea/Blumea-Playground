@@ -74,4 +74,19 @@ const ApiActions = [
   },
 ]
 
-export { filterData, ApiActions, FilterVarient } 
+const sampleUser = [
+  'Zimple Morison',
+  'Youst Young',
+  'Yeaton Lewis',
+  'Zilesch Robinson',
+  'Zvaniga Brown',
+  'Yager Lewis',
+  'Yeldell Scott',
+  'Zug Anderson',
+  'Zalewski Anderson',
+  'Yeaton Gustavsson',
+  'Yelverton Pedersen',
+  'Zolleis Berg',
+]
+
+export { filterData, ApiActions, FilterVarient,sampleUser }
