@@ -5,6 +5,7 @@ import {
   FilterVarient,
   ApiActions,
   sampleUser,
+  filterFirstName,
 } from '@/data/FilterData'
 import { JsonViewer } from '@textea/json-viewer'
 import axios from 'axios'
@@ -65,8 +66,8 @@ const HomePage = ({ ResponseFromHome }) => {
   }
 
   return (
-    <div className='grid grid-cols-contentColumnGrid pt-4 font-mono mx-4'>
-      <div className='bg-white p-3 flex gap-2 border-r rounded-s-md drop-shadow-md'>
+    <div className='grid grid-cols-contentColumnGrid pt-4 font-mono mx-4 relative'>
+      <div className='bg-white p-3 flex gap-2 border-r rounded-s-md drop-shadow-md items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -88,28 +89,45 @@ const HomePage = ({ ResponseFromHome }) => {
         </svg>
         Configuration
       </div>
-      <div className='bg-white p-3 flex gap-2 rounded-e-md drop-shadow-md justify-between'>
-        <div className='flex gap-2'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth='1.5'
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z'
-            />
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
-            />
-          </svg>
-          Canvas
+      <div className='bg-white p-3 flex gap-2 rounded-e-md drop-shadow-md justify-between items-center'>
+        <div className='flex gap-12 items-center'>
+          <div className='flex items-center min-w-max gap-2'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z'
+              />
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
+              />
+            </svg>
+            <span>Filter in use : </span>
+          </div>
+
+          <div className='ml-4 w-full flex gap-3'>
+            {filterFirstName.map((filterType) => (
+              <span
+                onClick={() => setFilterConstant(filterType.id)}
+                className={`${
+                  filterType.id === filterConstant
+                    ? `bg-${filterType.id}-100 border-2 border-${filterType.id}-200 text-${filterType.id}-300`
+                    : ``
+                } drop-shadow-lg border rounded-lg py-1 px-2 cursor-pointer`}
+              >
+                {filterType.name}
+              </span>
+            ))}
+          </div>
         </div>
         <div>
           <svg
@@ -128,79 +146,9 @@ const HomePage = ({ ResponseFromHome }) => {
           </svg>
         </div>
       </div>
-      <div className='border-r mt-4 p-3'>
-        <div className='flex gap-2'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth='1.5'
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3'
-            />
-          </svg>
-          <span>Filter Varient</span>
-        </div>
-        <div className='my-4'>
-          <select
-            id='large'
-            className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            onChange={handleVariant}
-            required
-          >
-            <option defaultValue={true} value={''}>
-              Choose a varient
-            </option>
-            {FilterVarient.map((filterType) => (
-              <option key={filterType.id} value={filterType.id}>
-                {filterType.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className='flex gap-2'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth='1.5'
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5'
-            />
-          </svg>
-
-          <span>API Actions</span>
-        </div>
-        <div className='my-4'>
-          <select
-            id='large'
-            className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            onChange={handleActionVarient}
-            required
-            disabled={!filterConstant}
-          >
-            <option defaultValue={true} value={''}>
-              Choose a varient
-            </option>
-            {ApiActions.map((actionType) => (
-              <option key={actionType.id} value={actionType.id}>
-                {actionType.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <div className='flex gap-2 my-3'>
+      <div className='border-r mt-4 p-3 relative'>
+        <div className='sticky top-10'>
+          <div className='flex gap-2'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -212,29 +160,121 @@ const HomePage = ({ ResponseFromHome }) => {
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
-                d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                d='M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3'
+              />
+            </svg>
+            <span>Filter Varient</span>
+          </div>
+          <div className='my-4'>
+            <select
+              id='large'
+              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              onChange={handleVariant}
+              required
+              value={filterConstant}
+            >
+              <option defaultValue={true} value={''}>
+                Choose a varient
+              </option>
+              {FilterVarient.map((filterType) => (
+                <option key={filterType.id} value={filterType.id}>
+                  {filterType.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='flex gap-2'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5'
               />
             </svg>
 
-            <span>User-name (Data)</span>
+            <span>API Actions</span>
           </div>
-          <input
-            type='text'
-            id='large-input'
-            placeholder='Enter a username ...'
-            disabled={
-              (!filterConstant && !apiActionConstant) ||
-              apiActionConstant == 'all'
-            }
-            onChange={(e) => setUserName(e.target.value)}
-            className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-          />
+          <div className='my-4'>
+            <select
+              id='large'
+              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              onChange={handleActionVarient}
+              required
+              disabled={!filterConstant}
+            >
+              <option defaultValue={true} value={''}>
+                Choose a varient
+              </option>
+              {ApiActions.map((actionType) => (
+                <option key={actionType.id} value={actionType.id}>
+                  {actionType.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <div className='flex gap-2 my-3'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                />
+              </svg>
+
+              <span>User-name (Data)</span>
+            </div>
+            <input
+              type='text'
+              id='large-input'
+              placeholder='Enter a username ...'
+              disabled={
+                (!filterConstant && !apiActionConstant) ||
+                apiActionConstant == 'all'
+              }
+              onChange={(e) => setUserName(e.target.value)}
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            />
+          </div>
+          <button
+            type='button'
+            className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 w-full my-8 justify-center'
+            onClick={handleApiCall}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+              />
+            </svg>
+            Execute Request
+          </button>
         </div>
-        <button
-          type='button'
-          className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 w-full my-8 justify-center'
-          onClick={handleApiCall}
-        >
+      </div>
+      <div className='mt-4 mb-8 ml-3'>
+        <div className='bg-white p-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -246,31 +286,114 @@ const HomePage = ({ ResponseFromHome }) => {
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
-              d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+              d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
             />
           </svg>
-          Execute Request
-        </button>
-      </div>
-      <div className='mt-4 mb-8 ml-3'>
-        <div className='bg-white h-[200px] mb-4 rounded-lg drop-shadow-md p-4 flex flex-wrap justify-start items-start gap-2'>
+          <span>Existing data for the Filter</span>
+        </div>
+        <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
           {/* <Image src='/images/user-database.webp' width={200} height={200} />
           <span>Existing Usernames for the filter</span> */}
-          <div>Existing users in the database:</div>
-          <div className='leading-10 flex flex-wrap gap-2'>
-            {sampleUser.map((user, index) => (
+          {/* <div>Existing users in the database:</div> */}
+          {/* <div className='leading-10 flex flex-wrap gap-2'> */}
+          {/* {sampleUser.map((user, index) => (
               <span
                 key={index}
                 className='bg-[#94AF9F] py-1 px-2 text-white rounded-md'
               >
                 {user}
               </span>
-            ))}
+            ))} */}
+          {/* </div> */}
+          {/* //! Table Implementation */}
+          {/* <div className='h-[250px] overflow-scroll p-0'> */}
+          <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[200px] overflow-scroll'>
+            <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+              <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
+                <tr className={`bg-${filterConstant}-200`}>
+                  <th
+                    scope='col'
+                    className='px-6 py-3  dark:bg-gray-800 tracking-widest'
+                  >
+                    ID
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Input Type
+                  </th>
+                  <th
+                    scope='col'
+                    className='px-6 py-3  dark:bg-gray-800 tracking-widest'
+                  >
+                    Data
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Timestamp
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Timestamp
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Timestamp
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Timestamp
+                  </th>
+                  <th scope='col' className='px-6 py-3 tracking-widest'>
+                    Timestamp
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {sampleUser.map((user, index) => (
+                  <tr class='border-b border-gray-200 dark:border-gray-700'>
+                    <th
+                      scope='row'
+                      className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
+                    >
+                      {index + 1}
+                    </th>
+                    <td className='px-6 py-4'>{typeof user}</td>
+                    <td
+                      className={`px-6 py-4 bg-${filterConstant}-100 dark:bg-gray-800`}
+                    >
+                      {user}
+                    </td>
+                    <td className='px-6 py-4'>Not defined</td>
+                    <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                      Not defined
+                    </td>
+                    <td className='px-6 py-4'>Not defined</td>
+                    <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                      Not defined
+                    </td>
+                    <td className='px-6 py-4'>Not defined</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
+          {/* </div> */}
         </div>
-        <div className='bg-white h-[200px] mb-12 rounded-lg drop-shadow-md grid grid-cols-2'>
+        <div className='bg-white p-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='currentColor'
+            className='w-6 h-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122'
+            />
+          </svg>
+          <span>Demo tasks to perform</span>
+        </div>
+        <div className='bg-white mb-12 rounded-lg drop-shadow-md grid grid-cols-2 p-4'>
           <div className='p-4 border-r relative'>
-            <div className='flex gap-2 my-3'>
+            <div className='flex gap-2 mb-3'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -301,7 +424,7 @@ const HomePage = ({ ResponseFromHome }) => {
             />
             <button
               type='button'
-              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2'
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-12 left-1/2 -translate-x-1/2'
               onClick={handleApiCall}
             >
               <svg
@@ -322,7 +445,7 @@ const HomePage = ({ ResponseFromHome }) => {
             </button>
           </div>
           <div className='p-4 relative'>
-            <div className='flex gap-2 my-3'>
+            <div className='flex gap-2 mb-3'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -353,7 +476,7 @@ const HomePage = ({ ResponseFromHome }) => {
             />
             <button
               type='button'
-              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2'
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-12 left-1/2 -translate-x-1/2'
               onClick={handleApiCall}
             >
               <svg

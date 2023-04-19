@@ -89,4 +89,27 @@ const sampleUser = [
   'Zolleis Berg',
 ]
 
-export { filterData, ApiActions, FilterVarient,sampleUser }
+const filterFirstName = [
+  {
+    id: 'classical',
+    name: 'Classical',
+  },
+  {
+    id: 'counting',
+    name: 'Counting',
+  },
+  {
+    id: 'partitioned',
+    name: 'Partitioned',
+  },
+  {
+    id: 'scalable',
+    name: 'Scalable',
+  },
+  {
+    id: 'cuckoo',
+    name: 'Cuckoo',
+  },
+]
+
+export { filterData, ApiActions, FilterVarient, sampleUser, filterFirstName }
