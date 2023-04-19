@@ -10,7 +10,7 @@ import {
 import { JsonViewer } from '@textea/json-viewer'
 import axios from 'axios'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const HomePage = ({ ResponseFromHome }) => {
   const [filterConstant, setFilterConstant] = useState('')
@@ -19,6 +19,10 @@ const HomePage = ({ ResponseFromHome }) => {
   const [data, setData] = useState(ResponseFromHome)
   const [statusCode, setStatusCode] = useState(200)
   const [userdata, setUserData] = useState()
+
+  useEffect(() => {
+    console.log('Filter ID : ', filterConstant)
+  }, [filterConstant])
 
   const handleApiCall = async () => {
     let responseData
@@ -119,9 +123,20 @@ const HomePage = ({ ResponseFromHome }) => {
               <span
                 onClick={() => setFilterConstant(filterType.id)}
                 className={`${
-                  filterType.id === filterConstant
-                    ? `bg-${filterType.id}-100 border-2 border-${filterType.id}-200 text-${filterType.id}-300`
-                    : ``
+                  filterType.id === filterConstant &&
+                  `${
+                    filterConstant === 'classical'
+                      ? 'bg-classical-100 border-1 border-classical-300'
+                      : `${filterConstant}` === `counting`
+                      ? 'bg-counting-100 border-1 border-counting-300'
+                      : `${filterConstant}` === `scalable`
+                      ? 'bg-scalable-100 border-1 border-scalable-300'
+                      : `${filterConstant}` === `partitioned`
+                      ? 'bg-partitioned-100 border-1 border-partitioned-300'
+                      : `${filterConstant}` === `cuckoo`
+                      ? 'bg-cuckoo-100 border-1 border-cuckoo-300'
+                      : 'bg-default-100'
+                  }`
                 } drop-shadow-lg border rounded-lg py-1 px-2 cursor-pointer`}
               >
                 {filterType.name}
@@ -310,7 +325,21 @@ const HomePage = ({ ResponseFromHome }) => {
           <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[200px] overflow-scroll'>
             <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
               <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
-                <tr className={`bg-${filterConstant}-200`}>
+                <tr
+                  className={`${
+                    filterConstant === 'classical'
+                      ? 'bg-classical-200'
+                      : `${filterConstant}` === `counting`
+                      ? 'bg-counting-200'
+                      : `${filterConstant}` === `scalabale`
+                      ? 'bg-scalable-200'
+                      : `${filterConstant}` === `partitioned`
+                      ? 'bg-partitioned-200'
+                      : `${filterConstant}` === `cuckoo`
+                      ? 'bg-cuckoo-200'
+                      : 'bg-default-200'
+                  }`}
+                >
                   <th
                     scope='col'
                     className='px-6 py-3  dark:bg-gray-800 tracking-widest'
