@@ -14,6 +14,9 @@ module.exports = {
         inter: ['Inter', 'sans-serif'],
         jakarta: ['Plus Jakarta Sans', 'sans-serif'],
         mono: ['Space Mono', 'monospace'],
+        noto: ['Noto Sans', 'sans-serif'],
+        ubuntu_mono: ['Ubuntu Mono', 'monospace'],
+        ubuntu: ['Ubuntu', 'sans-serif'],
       },
       gridTemplateColumns: {
         contentColumnGrid: '250px auto',

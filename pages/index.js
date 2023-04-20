@@ -17,7 +17,8 @@ const HomePage = ({ ResponseFromHome }) => {
   const [apiActionConstant, setApiActionConstant] = useState('')
   const [username, setUserName] = useState('')
   const [data, setData] = useState(ResponseFromHome)
-  const [statusCode, setStatusCode] = useState(200)
+  const [statusCode, setStatusCode] = useState(data.status)
+  const [message, setMessage] = useState(data.message)
   const [userdata, setUserData] = useState()
 
   useEffect(() => {
@@ -59,6 +60,8 @@ const HomePage = ({ ResponseFromHome }) => {
         .then((res) => res.data)
         .catch((err) => err)
       setData(responseData)
+      setStatusCode(responseData.status)
+      setMessage(responseData.message)
     }
   }
 
@@ -161,8 +164,13 @@ const HomePage = ({ ResponseFromHome }) => {
           </svg>
         </div>
       </div>
-      <div className='border-r mt-4 p-3 relative'>
-        <div className='sticky top-10'>
+      <div className='mt-8'>
+        <div className='bg-white h-[400px] p-4 drop-shadow-md rounded-lg'>
+          <div>Working Status</div>
+          <div></div>
+        </div>
+        <div className='border-r mt-80 p-3 sticky top-10'>
+          {/* <div className=' top-10'> */}
           <div className='flex gap-2'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -223,6 +231,7 @@ const HomePage = ({ ResponseFromHome }) => {
               onChange={handleActionVarient}
               required
               disabled={!filterConstant}
+              value={apiActionConstant}
             >
               <option defaultValue={true} value={''}>
                 Choose a varient
@@ -262,6 +271,7 @@ const HomePage = ({ ResponseFromHome }) => {
                 apiActionConstant == 'all'
               }
               onChange={(e) => setUserName(e.target.value)}
+              value={username}
               className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
             />
           </div>
@@ -287,9 +297,10 @@ const HomePage = ({ ResponseFromHome }) => {
             Execute Request
           </button>
         </div>
+        {/* </div> */}
       </div>
       <div className='mt-4 mb-8 ml-3'>
-        <div className='bg-white p-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
+        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -304,11 +315,15 @@ const HomePage = ({ ResponseFromHome }) => {
               d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
             />
           </svg>
-          <span>{ filterConstant ? "Existing data for the Filter":"No Filter Chosen! Choose now." }</span>
+          <span>
+            {filterConstant
+              ? 'Existing data for the Filter'
+              : 'No Filter Chosen! Choose now.'}
+          </span>
         </div>
         <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
           {filterConstant ? (
-            <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[200px] overflow-scroll'>
+            <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[250px] overflow-scroll'>
               <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
                 <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
                   <tr
@@ -360,7 +375,7 @@ const HomePage = ({ ResponseFromHome }) => {
                 </thead>
                 <tbody>
                   {sampleUser.map((user, index) => (
-                    <tr class='border-b border-gray-200 dark:border-gray-700'>
+                    <tr className='border-b border-gray-200 dark:border-gray-700'>
                       <th
                         scope='row'
                         className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
@@ -388,7 +403,7 @@ const HomePage = ({ ResponseFromHome }) => {
               </table>
             </div>
           ) : (
-            <div>
+            <div className='h-[250px] flex flex-col items-center justify-center'>
               <Image
                 src='/images/user-database.webp'
                 width={200}
@@ -414,7 +429,7 @@ const HomePage = ({ ResponseFromHome }) => {
 
           {/* </div> */}
         </div>
-        <div className='bg-white p-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
+        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -429,27 +444,50 @@ const HomePage = ({ ResponseFromHome }) => {
               d='M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122'
             />
           </svg>
-          <span>Demo tasks to perform</span>
+          <span>Action Area</span>
         </div>
-        <div className='bg-white mb-12 rounded-lg drop-shadow-md grid grid-cols-2 p-4'>
+        <div className='bg-white mb-32 rounded-lg drop-shadow-md grid grid-cols-2 px-4'>
           <div className='p-4 border-r relative'>
-            <div className='flex gap-2 mb-3'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
-                />
-              </svg>
+            <div className='flex justify-between items-center'>
+              <div className='flex gap-2 items-center'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth='1.5'
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
+                  />
+                </svg>
 
-              <span>User-name (Data)</span>
+                <span>User-name (Data)</span>
+              </div>
+
+              <div className='flex gap-8'>
+                <span
+                  className={`${
+                    apiActionConstant === 'create' &&
+                    'border-2 border-success bg-tableSuccessTrans text-success'
+                  } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
+                  onClick={() => filterConstant && setApiActionConstant('create')}
+                >
+                  Create
+                </span>
+                <span
+                  className={`${
+                    apiActionConstant === 'search' &&
+                    'border-2 border-success bg-tableSuccessTrans text-success'
+                  } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
+                  onClick={() => filterConstant && setApiActionConstant('search')}
+                >
+                  Search
+                </span>
+              </div>
             </div>
             <input
               type='text'
@@ -460,11 +498,12 @@ const HomePage = ({ ResponseFromHome }) => {
                 apiActionConstant == 'all'
               }
               onChange={(e) => setUserName(e.target.value)}
-              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              value={username}
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-6 mt-3'
             />
             <button
               type='button'
-              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-12 left-1/2 -translate-x-1/2'
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2 w-[200px]'
               onClick={handleApiCall}
             >
               <svg
@@ -481,63 +520,104 @@ const HomePage = ({ ResponseFromHome }) => {
                   d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
                 />
               </svg>
-              Create User
+              Execute
             </button>
           </div>
-          <div className='p-4 relative'>
-            <div className='flex gap-2 mb-3'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
-                />
-              </svg>
-
-              <span>User-name (Data)</span>
+          <div className='px-4 pt-4'>
+            <div className='flex gap-2 mb-3 flex-col items-center'>
+              <div className='flex justify-between w-full items-center'>
+                <div className='flex gap-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth='1.5'
+                    stroke='currentColor'
+                    className='w-6 h-6'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z'
+                    />
+                  </svg>
+                  <span> Recent Result (Response)</span>
+                </div>
+                <div className='flex gap-3 items-center'>
+                  {statusCode ? (
+                    statusCode === 200 || statusCode === 201 ? (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='w-8 h-8 text-success'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='w-8 h-8 text-failure'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+                        />
+                      </svg>
+                    )
+                  ) : (
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth='1.5'
+                      stroke='currentColor'
+                      className='w-8 h-8 text-warning'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
+                      />
+                    </svg>
+                  )}
+                  <div className='flex'>
+                    {statusCode ? (
+                      statusCode === 200 || statusCode === 201 ? (
+                        <span className='bg-success text-white py-1 px-2 rounded-md drop-shadow-lg'>
+                          Success
+                        </span>
+                      ) : (
+                        <span className='bg-failure text-white py-1 px-2 rounded-md drop-shadow-lg'>
+                          Error
+                        </span>
+                      )
+                    ) : (
+                      <span className='bg-warning text-white py-1 px-2 rounded-md drop-shadow-lg'>
+                        No calls yet.
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className=' flex flex-col justify-center px-1 w-full text-success'>
+                {message}
+              </div>
             </div>
-            <input
-              type='text'
-              id='large-input'
-              placeholder='Enter a username ...'
-              disabled={
-                (!filterConstant && !apiActionConstant) ||
-                apiActionConstant == 'all'
-              }
-              onChange={(e) => setUserName(e.target.value)}
-              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-            />
-            <button
-              type='button'
-              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-12 left-1/2 -translate-x-1/2'
-              onClick={handleApiCall}
-            >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
-                />
-              </svg>
-              Search User
-            </button>
           </div>
         </div>
-        <div className='bg-white drop-shadow-md rounded-lg mb-4 p-4 flex gap-2'>
+        <div className='bg-white drop-shadow-md rounded-lg mb-4 p-2 flex gap-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -572,7 +652,7 @@ const HomePage = ({ ResponseFromHome }) => {
           userName={username}
           statusCode={statusCode}
         />
-        <div className='h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px]'>
+        <div className='h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
           <JsonViewer value={data.data ? data.data : data} />
         </div>
       </div>

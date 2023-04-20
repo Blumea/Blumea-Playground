@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from 'next/image'
+import Link from 'next/link'
 
 const Header = () => {
   return (
@@ -11,7 +11,7 @@ const Header = () => {
           height={30}
           alt='BlumeaLogo'
         />
-        <span className='text-xl font-semibold'>Playground</span>
+        <span className='text-xl font-semibold'>Blumea Playground</span>
         <Link
           href={'#'}
           className='flex ml-8 items-center gap-2
