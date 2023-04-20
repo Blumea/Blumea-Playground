@@ -39,7 +39,7 @@ const Header = () => {
           Documentation
         </Link>
         <Link href={'#'} className='flex gap-3 items-center'>
-          <Image src='/images/npm-logo.svg' width={30} height={30} />
+          <Image src='/images/npm-logo.svg' width={30} height={30} alt='npm' />
           Package
         </Link>
       </div>

@@ -19,11 +19,45 @@ const HomePage = ({ ResponseFromHome }) => {
   const [data, setData] = useState(ResponseFromHome)
   const [statusCode, setStatusCode] = useState(data.status)
   const [message, setMessage] = useState(data.message)
+  const [timer, setTimer] = useState(false)
   const [userdata, setUserData] = useState()
 
+  const handleTimer = () => {
+    setTimer(true)
+    setTimeout(() => {
+      setTimer(false)
+    }, [3000])
+  }
+
   useEffect(() => {
-    console.log('Filter ID : ', filterConstant)
-  }, [filterConstant])
+    const fetchTableData = async () => {
+      const customURL = `https://blumea-serverless.vercel.app${
+        filterConstant && `/api/${filterConstant}/all`
+      }`
+      console.log(' Table Data URL : ', customURL)
+      const config = {
+        headers: {
+          'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
+        },
+      }
+      const responseData = await axios
+        .get(customURL, config)
+        .then((res) => res)
+        .catch((err) => err.response)
+      console.log('Table Data from backend', responseData)
+    }
+    fetchTableData()
+  }, [data, filterConstant])
+
+  useEffect(() => {
+    console.log(data.status, data.message)
+    setStatusCode(data.status)
+    setMessage(
+      data.status === 200 || data.status === 201
+        ? data.message
+        : data.message + ' ' + data.data.error
+    )
+  }, [data])
 
   const handleApiCall = async () => {
     let responseData
@@ -37,6 +71,7 @@ const HomePage = ({ ResponseFromHome }) => {
         ? `?item=${username}`
         : ``
     }`
+    console.log('URL : ', customURL)
     const config = {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
@@ -45,24 +80,21 @@ const HomePage = ({ ResponseFromHome }) => {
     if (username && apiActionConstant === 'create') {
       responseData = await axios
         .post(customURL, {}, config)
-        .then((res) => res.data)
-        .catch((err) => err)
-      setData(responseData)
+        .then((res) => res)
+        .catch((err) => err.response)
     } else if (username && apiActionConstant === 'search') {
       responseData = await axios
         .get(customURL, config)
-        .then((res) => res.data)
-        .catch((err) => err)
-      setData(responseData)
+        .then((res) => res)
+        .catch((err) => err.response)
     } else {
       responseData = await axios
         .get(customURL, config)
-        .then((res) => res.data)
-        .catch((err) => err)
-      setData(responseData)
-      setStatusCode(responseData.status)
-      setMessage(responseData.message)
+        .then((res) => res)
+        .catch((err) => err.response)
     }
+    console.log('Response Data : ', responseData)
+    setData(responseData.data)
   }
 
   const handleVariant = (e) => {
@@ -124,6 +156,7 @@ const HomePage = ({ ResponseFromHome }) => {
           <div className='ml-4 w-full flex gap-3'>
             {filterFirstName.map((filterType) => (
               <span
+                key={filterType.id}
                 onClick={() => setFilterConstant(filterType.id)}
                 className={`${
                   filterType.id === filterConstant &&
@@ -164,10 +197,46 @@ const HomePage = ({ ResponseFromHome }) => {
           </svg>
         </div>
       </div>
-      <div className='mt-8'>
-        <div className='bg-white h-[400px] p-4 drop-shadow-md rounded-lg'>
-          <div>Working Status</div>
-          <div></div>
+      <div className='mt-4'>
+        <div className='bg-white p-4 drop-shadow-md rounded-lg'>
+          <div className='mb-6 text-lg flex items-center justify-between'>
+            <div>Working Status</div>
+            <div
+              className={`${timer && 'animate-spin'} w-max cursor-pointer`}
+              onClick={handleTimer}
+            >
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99'
+                />
+              </svg>
+            </div>
+          </div>
+          <div>
+            {filterData.map((filterItem, index) => (
+              <div key={index} className='flex justify-between pb-5'>
+                <span>{filterItem.name.split(' ')[0]}</span>
+                {filterItem.active ? (
+                  <span className='bg-successTrans text-sm border-2 border-success py-1 px-2 rounded-md drop-shadow-lg'>
+                    Active
+                  </span>
+                ) : (
+                  <span className='bg-failureTrans text-sm border-2 border-failure py-1 px-2 rounded-md drop-shadow-lg'>
+                    Inactive
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
         <div className='border-r mt-80 p-3 sticky top-10'>
           {/* <div className=' top-10'> */}
@@ -323,9 +392,9 @@ const HomePage = ({ ResponseFromHome }) => {
         </div>
         <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
           {filterConstant ? (
-            <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-[250px] overflow-scroll'>
-              <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-                <thead className='text-xs text-gray-700 uppercase dark:text-gray-400'>
+            <div className='w-full relative overflow-x-auto shadow-md sm:rounded-lg h-[260px] overflow-scroll'>
+              <table className='w-full text-sm text-left text-gray-600 dark:text-gray-400'>
+                <thead className='text-md text-gray-700 uppercase dark:text-gray-400'>
                   <tr
                     className={`${
                       filterConstant === 'classical'
@@ -362,20 +431,14 @@ const HomePage = ({ ResponseFromHome }) => {
                     <th scope='col' className='px-6 py-3 tracking-widest'>
                       Timestamp
                     </th>
-                    <th scope='col' className='px-6 py-3 tracking-widest'>
-                      Timestamp
-                    </th>
-                    <th scope='col' className='px-6 py-3 tracking-widest'>
-                      Timestamp
-                    </th>
-                    <th scope='col' className='px-6 py-3 tracking-widest'>
-                      Timestamp
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {sampleUser.map((user, index) => (
-                    <tr className='border-b border-gray-200 dark:border-gray-700'>
+                    <tr
+                      className='border-b border-gray-200 dark:border-gray-700'
+                      key={index}
+                    >
                       <th
                         scope='row'
                         className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
@@ -392,11 +455,6 @@ const HomePage = ({ ResponseFromHome }) => {
                       <td className={`px-6 py-4 bg-${filterConstant}-100`}>
                         Not defined
                       </td>
-                      <td className='px-6 py-4'>Not defined</td>
-                      <td className={`px-6 py-4 bg-${filterConstant}-100`}>
-                        Not defined
-                      </td>
-                      <td className='px-6 py-4'>Not defined</td>
                     </tr>
                   ))}
                 </tbody>
@@ -408,6 +466,7 @@ const HomePage = ({ ResponseFromHome }) => {
                 src='/images/user-database.webp'
                 width={200}
                 height={200}
+                alt='users'
               />
               <span>Choose a Filter to Start</span>
             </div>
@@ -474,7 +533,9 @@ const HomePage = ({ ResponseFromHome }) => {
                     apiActionConstant === 'create' &&
                     'border-2 border-success bg-tableSuccessTrans text-success'
                   } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
-                  onClick={() => filterConstant && setApiActionConstant('create')}
+                  onClick={() =>
+                    filterConstant && setApiActionConstant('create')
+                  }
                 >
                   Create
                 </span>
@@ -483,7 +544,9 @@ const HomePage = ({ ResponseFromHome }) => {
                     apiActionConstant === 'search' &&
                     'border-2 border-success bg-tableSuccessTrans text-success'
                   } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
-                  onClick={() => filterConstant && setApiActionConstant('search')}
+                  onClick={() =>
+                    filterConstant && setApiActionConstant('search')
+                  }
                 >
                   Search
                 </span>
@@ -611,7 +674,15 @@ const HomePage = ({ ResponseFromHome }) => {
                   </div>
                 </div>
               </div>
-              <div className=' flex flex-col justify-center px-1 w-full text-success'>
+              <div
+                className={`${
+                  statusCode
+                    ? statusCode === 200 || statusCode === 201
+                      ? 'text-success'
+                      : 'text-failure'
+                    : 'text-warning'
+                } flex flex-col justify-center px-1 w-full `}
+              >
                 {message}
               </div>
             </div>

@@ -18,14 +18,19 @@ module.exports = {
         ubuntu_mono: ['Ubuntu Mono', 'monospace'],
         ubuntu: ['Ubuntu', 'sans-serif'],
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
       gridTemplateColumns: {
         contentColumnGrid: '250px auto',
       },
       colors: {
         success: '#01a745',
-        successTrans: 'rgb(1, 167, 69,0.2)',
+        successTrans: 'rgb(1, 167, 69,0.4)',
         tableSuccessTrans: 'rgb(1, 167, 69,0.1)',
         failure: '#d22500',
+        failureTrans: 'rgba(210, 37, 0,0.4)',
+        tableFailureTrans: 'rgba(210, 37, 0,0.1)',
         linkGreen: '#2B7A0B',
         warning: '#EBB02D',
         classical: {
