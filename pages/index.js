@@ -16,6 +16,7 @@ const HomePage = ({ ResponseFromHome }) => {
   const [filterConstant, setFilterConstant] = useState('')
   const [apiActionConstant, setApiActionConstant] = useState('')
   const [username, setUserName] = useState('')
+  const [rawData,setRawData] =useState(ResponseFromHome)
   const [data, setData] = useState(ResponseFromHome)
   const [statusCode, setStatusCode] = useState(data.status)
   const [message, setMessage] = useState(data.message)
@@ -95,6 +96,7 @@ const HomePage = ({ ResponseFromHome }) => {
         .catch((err) => err.response)
     }
     console.log('Response Data : ', responseData)
+    setRawData(responseData)
     setData(responseData.data)
   }
 
@@ -464,7 +466,7 @@ const HomePage = ({ ResponseFromHome }) => {
           ) : (
             <div className='h-[250px] flex flex-col items-center justify-center'>
               <Image
-                src='/images/user-database.webp'
+                src='/images/user-database.png'
                 width={200}
                 height={200}
                 alt='users'
@@ -725,7 +727,7 @@ const HomePage = ({ ResponseFromHome }) => {
           statusCode={statusCode}
         />
         <div className='h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
-          <JsonViewer value={data.data ? data.data : data} />
+          <JsonViewer value={rawData} />
         </div>
       </div>
     </div>
