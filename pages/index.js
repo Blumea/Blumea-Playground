@@ -16,7 +16,7 @@ const HomePage = ({ ResponseFromHome }) => {
   const [filterConstant, setFilterConstant] = useState('')
   const [apiActionConstant, setApiActionConstant] = useState('')
   const [username, setUserName] = useState('')
-  const [rawData,setRawData] =useState(ResponseFromHome)
+  const [rawData, setRawData] = useState(ResponseFromHome)
   const [data, setData] = useState(ResponseFromHome)
   const [statusCode, setStatusCode] = useState(data.status)
   const [message, setMessage] = useState(data.message)
@@ -53,7 +53,7 @@ const HomePage = ({ ResponseFromHome }) => {
   useEffect(() => {
     console.log(data.status, data.message)
     setStatusCode(data.status)
-    console.log("Error",data)
+    console.log('Error', data)
     setMessage(
       data.status === 200 || data.status === 201
         ? data.message
@@ -726,7 +726,7 @@ const HomePage = ({ ResponseFromHome }) => {
           userName={username}
           statusCode={statusCode}
         />
-        <div className='max-w-screen w-full h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
+        <div className='w-[calc(screen-250px)] h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
           <JsonViewer value={rawData} />
         </div>
       </div>

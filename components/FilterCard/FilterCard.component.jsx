@@ -1,6 +1,6 @@
 const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
   return (
-    <div className='bg-white max-w-xs w-full rounded-lg pt-6 pb-4 px-4 relative drop-shadow-md text-sm'>
+    <div className='bg-white max-w-xs w-full rounded-lg pt-8 pb-4 px-4 relative drop-shadow-md text-sm'>
       <div className='absolute flex gap-2 right-3 font-mono top-2 items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
