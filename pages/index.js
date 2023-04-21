@@ -726,7 +726,7 @@ const HomePage = ({ ResponseFromHome }) => {
           userName={username}
           statusCode={statusCode}
         />
-        <div className='w-[calc(100vw-250px)] h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
+        <div className='w-[calc(100vw-310px)] h-96 bg-white drop-shadow-md rounded-lg p-10 overflow-scroll text-[18px] mb-8'>
           <JsonViewer value={rawData} />
         </div>
       </div>
