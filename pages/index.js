@@ -52,10 +52,11 @@ const HomePage = ({ ResponseFromHome }) => {
   useEffect(() => {
     console.log(data.status, data.message)
     setStatusCode(data.status)
+    console.log("Error",data)
     setMessage(
       data.status === 200 || data.status === 201
         ? data.message
-        : data.message + ' ' + data.data.error
+        : data.message + ' ' + (data.data && data.data.error)
     )
   }, [data])
 
@@ -77,12 +78,12 @@ const HomePage = ({ ResponseFromHome }) => {
         'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
       },
     }
-    if (username && apiActionConstant === 'create') {
+    if (apiActionConstant === 'create') {
       responseData = await axios
         .post(customURL, {}, config)
         .then((res) => res)
         .catch((err) => err.response)
-    } else if (username && apiActionConstant === 'search') {
+    } else if (apiActionConstant === 'search') {
       responseData = await axios
         .get(customURL, config)
         .then((res) => res)
