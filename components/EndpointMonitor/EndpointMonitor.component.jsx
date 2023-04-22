@@ -26,7 +26,7 @@ const EndpointMonitor = ({ variantType, actionType, userName, statusCode }) => {
         <span className='text-warning font-semibold'>
           {actionType === 'create' ? 'POST' : 'GET'} |{' '}
         </span>
-        <span className='text-linkGreen font-mono'>{`https://blumea-serverless.vercel.app${
+        <span className='text-linkGreen font-work_sans'>{`https://blumea-serverless.vercel.app${
           variantType && `/api/${variantType}`
         }${actionType && `/${actionType}`}${
           userName && actionType !== 'all' && variantType && actionType

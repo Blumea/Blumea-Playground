@@ -1,7 +1,7 @@
 const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
   return (
     <div className='bg-white max-w-xs w-full rounded-lg pt-8 pb-4 px-4 relative drop-shadow-md text-sm'>
-      <div className='absolute flex gap-2 right-3 font-mono top-2 items-center'>
+      <div className='absolute flex gap-2 right-3 font-work_sans top-2 items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -25,16 +25,18 @@ const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
         </span>
       </div>
       <div className='my-1'>
-        <h3 className='font-mono font-light text-slate-500'>Filter Name</h3>
-        <h3 className='font-mono'>{name}</h3>
+        <h3 className='font-work_sans font-light text-slate-500'>
+          Filter Name
+        </h3>
+        <h3 className='font-work_sans'>{name}</h3>
       </div>
       {/* <div className='my-1'>
         <h3 className='font-jakarta font-light text-slate-500'>Base Route</h3>
         <h3 className='font-inter'>{baseRoute}</h3>
       </div> */}
       <div className='my-1'>
-        <h3 className='font-mono font-light text-slate-500'>API Route</h3>
-        <h3 className='font-mono'>{customRoute}</h3>
+        <h3 className='font-work_sans font-light text-slate-500'>API Route</h3>
+        <h3 className='font-work_sans'>{customRoute}</h3>
       </div>
       <div></div>
     </div>

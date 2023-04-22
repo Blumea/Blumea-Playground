@@ -18,14 +18,14 @@ const filterData = [
     name: 'Partitioned Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
     customRoute: '/api/partitioned',
-    active: false,
+    active: true,
   },
   {
     id: 'scalable_bloom_filter',
     name: 'Scalable Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
     customRoute: '/api/scalable',
-    active: true,
+    active: false,
   },
   {
     id: 'cuckoo_filter',

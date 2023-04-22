@@ -1,5 +1,6 @@
 import EndpointMonitor from '@/components/EndpointMonitor/EndpointMonitor.component'
 import FilterCard from '@/components/FilterCard/FilterCard.component'
+import Loader from '@/components/Loader/Loader'
 import {
   filterData,
   FilterVarient,
@@ -21,7 +22,8 @@ const HomePage = ({ ResponseFromHome }) => {
   const [statusCode, setStatusCode] = useState(data.status)
   const [message, setMessage] = useState(data.message)
   const [timer, setTimer] = useState(false)
-  const [userdata, setUserData] = useState()
+  const [userData, setUserData] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const handleTimer = () => {
     setTimer(true)
@@ -31,11 +33,12 @@ const HomePage = ({ ResponseFromHome }) => {
   }
 
   useEffect(() => {
+    setUserData()
+    setLoading(true)
     const fetchTableData = async () => {
       const customURL = `https://blumea-serverless.vercel.app${
         filterConstant && `/api/${filterConstant}/all`
       }`
-      console.log(' Table Data URL : ', customURL)
       const config = {
         headers: {
           'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
@@ -45,19 +48,20 @@ const HomePage = ({ ResponseFromHome }) => {
         .get(customURL, config)
         .then((res) => res)
         .catch((err) => err.response)
-      console.log('Table Data from backend', responseData)
+      if (responseData.data.data) {
+        setUserData(responseData.data.data.itemList)
+      }
+      setLoading(false)
     }
     fetchTableData()
   }, [data, filterConstant])
 
   useEffect(() => {
-    console.log(data.status, data.message)
     setStatusCode(data.status)
-    console.log('Error', data)
     setMessage(
       data.status === 200 || data.status === 201
         ? data.message
-        : data.message + ' ' + (data.data && data.data.error)
+        : data.message + ' ' + data.data
     )
   }, [data])
 
@@ -73,7 +77,6 @@ const HomePage = ({ ResponseFromHome }) => {
         ? `?item=${username}`
         : ``
     }`
-    console.log('URL : ', customURL)
     const config = {
       headers: {
         'x-api-key': process.env.NEXT_PUBLIC_X_API_KEY,
@@ -95,7 +98,6 @@ const HomePage = ({ ResponseFromHome }) => {
         .then((res) => res)
         .catch((err) => err.response)
     }
-    console.log('Response Data : ', responseData)
     setRawData(responseData)
     setData(responseData.data)
   }
@@ -108,8 +110,8 @@ const HomePage = ({ ResponseFromHome }) => {
   }
 
   return (
-    <div className='grid grid-cols-contentColumnGrid pt-4 font-mono mx-4 relative'>
-      <div className='bg-white p-3 flex gap-2 border-r rounded-s-md drop-shadow-md items-center'>
+    <div className='grid grid-cols-contentColumnGrid pt-4 font-work_sans tracking-wider mx-4 relative'>
+      <div className='bg-white p-3 flex gap-2 border-r rounded-s-md drop-shadow-md  items-center'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -165,16 +167,16 @@ const HomePage = ({ ResponseFromHome }) => {
                   filterType.id === filterConstant &&
                   `${
                     filterConstant === 'classical'
-                      ? 'bg-classical-100 border-1 border-classical-300'
+                      ? 'bg-classical-300 border-1 border-slate-300'
                       : `${filterConstant}` === `counting`
-                      ? 'bg-counting-100 border-1 border-counting-300'
+                      ? 'bg-counting-300 border-1 border-slate-300'
                       : `${filterConstant}` === `scalable`
-                      ? 'bg-scalable-100 border-1 border-scalable-300'
+                      ? 'bg-scalable-300 border-1 border-slate-300'
                       : `${filterConstant}` === `partitioned`
-                      ? 'bg-partitioned-100 border-1 border-partitioned-300'
+                      ? 'bg-partitioned-300 border-1 border-slate-300'
                       : `${filterConstant}` === `cuckoo`
-                      ? 'bg-cuckoo-100 border-1 border-cuckoo-300'
-                      : 'bg-default-100'
+                      ? 'bg-cuckoo-300 border-1 border-slate-300'
+                      : 'bg-default-300'
                   }`
                 } drop-shadow-lg border rounded-lg py-1 px-2 cursor-pointer`}
               >
@@ -395,9 +397,13 @@ const HomePage = ({ ResponseFromHome }) => {
         </div>
         <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
           {filterConstant ? (
-            <div className='w-full relative overflow-x-auto shadow-md sm:rounded-lg h-[260px] overflow-scroll'>
-              <table className='w-full text-sm text-left text-gray-600 dark:text-gray-400'>
-                <thead className='text-md text-gray-700 uppercase dark:text-gray-400'>
+            <div className='w-full relative overflow-x-auto shadow-md rounded-lg h-[260px] overflow-scroll'>
+              <div className='absolute left-1/2 -translate-x-1/2 top-28'>
+                {isLoading && <Loader />}
+                {!userData?'':userData.length===0?'NO DATA FOUND':''}
+              </div>
+              <table className='w-full text-md text-left text-gray-600 relative'>
+                <thead className='text-sm text-gray-700 uppercase'>
                   <tr
                     className={`${
                       filterConstant === 'classical'
@@ -413,53 +419,55 @@ const HomePage = ({ ResponseFromHome }) => {
                         : 'bg-default-200'
                     }`}
                   >
-                    <th
-                      scope='col'
-                      className='px-6 py-3  dark:bg-gray-800 tracking-widest'
-                    >
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
                       ID
                     </th>
                     <th scope='col' className='px-6 py-3 tracking-widest'>
                       Input Type
                     </th>
-                    <th
-                      scope='col'
-                      className='px-6 py-3  dark:bg-gray-800 tracking-widest'
-                    >
+                    <th scope='col' className='px-6 py-3 tracking-widest'>
                       Data
                     </th>
                     <th scope='col' className='px-6 py-3 tracking-widest'>
-                      Timestamp
+                      Size
                     </th>
                     <th scope='col' className='px-6 py-3 tracking-widest'>
-                      Timestamp
+                      Created At
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {sampleUser.map((user, index) => (
-                    <tr
-                      className='border-b border-gray-200 dark:border-gray-700'
-                      key={index}
-                    >
-                      <th
-                        scope='row'
-                        className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-${filterConstant}-100 dark:text-white dark:bg-gray-800`}
-                      >
-                        {index + 1}
-                      </th>
-                      <td className='px-6 py-4'>{typeof user}</td>
-                      <td
-                        className={`px-6 py-4 bg-${filterConstant}-100 dark:bg-gray-800`}
-                      >
-                        {user}
-                      </td>
-                      <td className='px-6 py-4'>Not defined</td>
-                      <td className={`px-6 py-4 bg-${filterConstant}-100`}>
-                        Not defined
-                      </td>
-                    </tr>
-                  ))}
+                <tbody className='relative'>
+                  {userData &&
+                    userData.map((user, index) => (
+                      <tr className='border-b border-gray-200' key={index}>
+                        <th
+                          scope='row'
+                          className={`px-6 py-4 font-medium text-gray-900 whitespace-nowrap ${
+                            filterConstant === 'classical'
+                              ? 'bg-classical-100'
+                              : `${filterConstant}` === `counting`
+                              ? 'bg-counting-100'
+                              : `${filterConstant}` === `scalabale`
+                              ? 'bg-scalable-100'
+                              : `${filterConstant}` === `partitioned`
+                              ? 'bg-partitioned-100'
+                              : `${filterConstant}` === `cuckoo`
+                              ? 'bg-cuckoo-100'
+                              : 'bg-default-100'
+                          }`}
+                        >
+                          {user._id}
+                        </th>
+                        <td className='px-6 py-4'>{user.type}</td>
+                        <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                          {user.item}
+                        </td>
+                        <td className='px-6 py-4'>{user.size}</td>
+                        <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                          {user.created}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
