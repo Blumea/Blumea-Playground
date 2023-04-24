@@ -13,6 +13,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
+
 const HomePage = ({ ResponseFromHome }) => {
   const [filterConstant, setFilterConstant] = useState('')
   const [apiActionConstant, setApiActionConstant] = useState('')
@@ -24,6 +25,7 @@ const HomePage = ({ ResponseFromHome }) => {
   const [timer, setTimer] = useState(false)
   const [userData, setUserData] = useState([])
   const [isLoading, setLoading] = useState(false)
+
 
   const handleTimer = () => {
     setTimer(true)
@@ -400,7 +402,7 @@ const HomePage = ({ ResponseFromHome }) => {
             <div className='w-full relative overflow-x-auto shadow-md rounded-lg h-[260px] overflow-scroll'>
               <div className='absolute left-1/2 -translate-x-1/2 top-28'>
                 {isLoading && <Loader />}
-                {!userData?'':userData.length===0?'NO DATA FOUND':''}
+                {!userData ? '' : userData.length === 0 ? 'NO DATA FOUND' : ''}
               </div>
               <table className='w-full text-md text-left text-gray-600 relative'>
                 <thead className='text-sm text-gray-700 uppercase'>

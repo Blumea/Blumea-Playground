@@ -6,7 +6,7 @@ const Header = () => {
     <div className='flex  py-3 px-4 drop-shadow-lg border-b font-work_sans tracking-wide'>
       <div className='flex items-center w-full gap-2'>
         <Image
-          src='/images/Logo-green.png'
+          src='/images/Logo.png'
           width={30}
           height={30}
           alt='BlumeaLogo'

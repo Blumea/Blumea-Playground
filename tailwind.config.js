@@ -23,6 +23,10 @@ module.exports = {
       },
       gridTemplateColumns: {
         contentColumnGrid: '250px auto',
+        warningColumnsGrid: '80px auto',
+      },
+      gridTemplateRows: {
+        warningRowsGrid: '50px auto'
       },
       colors: {
         success: '#01a745',
@@ -49,7 +53,7 @@ module.exports = {
         partitioned: {
           300: 'rgba(160, 32, 240,0.3)', //purple,
           200: 'rgba(160, 32, 240,0.2)',
-          100: 'rgba(160, 32, 240,0.05)',
+          100: 'rgba(160, 32, 240,0.)',
         },
         scalable: {
           300: 'rgba(255, 255, 0,0.4)', //yellowDark
