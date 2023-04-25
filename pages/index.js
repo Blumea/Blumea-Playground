@@ -13,7 +13,6 @@ import axios from 'axios'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-
 const HomePage = ({ ResponseFromHome }) => {
   const [filterConstant, setFilterConstant] = useState('')
   const [apiActionConstant, setApiActionConstant] = useState('')
@@ -25,7 +24,6 @@ const HomePage = ({ ResponseFromHome }) => {
   const [timer, setTimer] = useState(false)
   const [userData, setUserData] = useState([])
   const [isLoading, setLoading] = useState(false)
-
 
   const handleTimer = () => {
     setTimer(true)
@@ -63,7 +61,7 @@ const HomePage = ({ ResponseFromHome }) => {
     setMessage(
       data.status === 200 || data.status === 201
         ? data.message
-        : data.message + ' ' + data.data
+        : data.message + ' ' + (data.data.error ? data.data.error : '')
     )
   }, [data])
 
@@ -102,6 +100,22 @@ const HomePage = ({ ResponseFromHome }) => {
     }
     setRawData(responseData)
     setData(responseData.data)
+  }
+
+  const toggleFilterConstant = (id) => {
+    if (filterConstant === id) {
+      setFilterConstant('')
+      setApiActionConstant('')
+    } else {
+      setFilterConstant(id)
+    }
+  }
+  const toggleAction = (action) => {
+    if (apiActionConstant === action) {
+      setApiActionConstant('')
+    } else {
+      setApiActionConstant(action)
+    }
   }
 
   const handleVariant = (e) => {
@@ -164,7 +178,7 @@ const HomePage = ({ ResponseFromHome }) => {
             {filterFirstName.map((filterType) => (
               <span
                 key={filterType.id}
-                onClick={() => setFilterConstant(filterType.id)}
+                onClick={() => toggleFilterConstant(filterType.id)}
                 className={`${
                   filterType.id === filterConstant &&
                   `${
@@ -267,7 +281,7 @@ const HomePage = ({ ResponseFromHome }) => {
           <div className='my-4'>
             <select
               id='large'
-              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500'
               onChange={handleVariant}
               required
               value={filterConstant}
@@ -303,7 +317,7 @@ const HomePage = ({ ResponseFromHome }) => {
           <div className='my-4'>
             <select
               id='large'
-              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              className='drop=shadow-md block w-full px-4 py-3 text-base text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 disabled:bg-offWhiteBase disabled:cursor-not-allowed'
               onChange={handleActionVarient}
               required
               disabled={!filterConstant}
@@ -348,12 +362,12 @@ const HomePage = ({ ResponseFromHome }) => {
               }
               onChange={(e) => setUserName(e.target.value)}
               value={username}
-              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white sm:text-md focus:ring-blue-500 focus:border-blue-500 disabled:bg-offWhiteBase disabled:cursor-not-allowed'
             />
           </div>
           <button
             type='button'
-            className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 w-full my-8 justify-center'
+            className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 w-full my-8 justify-center'
             onClick={handleApiCall}
           >
             <svg
@@ -376,7 +390,7 @@ const HomePage = ({ ResponseFromHome }) => {
         {/* </div> */}
       </div>
       <div className='mt-4 mb-8 ml-3'>
-        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
+        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2 items-center'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -391,11 +405,34 @@ const HomePage = ({ ResponseFromHome }) => {
               d='M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125'
             />
           </svg>
-          <span>
-            {filterConstant
-              ? 'Existing data for the Filter'
-              : 'No Filter Chosen! Choose now.'}
-          </span>
+
+          {filterConstant ? (
+            <span className='bg-success text-white py-1 px-2 rounded drop-shadow-md'>
+              Existing data for the Filter
+            </span>
+          ) : (
+            <>
+              <span className='bg-warning text-white py-1 px-2 rounded drop-shadow-md'>
+                No Filter Chosen! Click to choose.
+              </span>
+              <div>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth='1.5'
+                  stroke='currentColor'
+                  className='w-6 h-6 animate-bounce'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75'
+                  />
+                </svg>
+              </div>
+            </>
+          )}
         </div>
         <div className='bg-white mb-4 rounded-lg drop-shadow-md p-4 flex flex-col justify-center items-center gap-2'>
           {filterConstant ? (
@@ -403,6 +440,11 @@ const HomePage = ({ ResponseFromHome }) => {
               <div className='absolute left-1/2 -translate-x-1/2 top-28'>
                 {isLoading && <Loader />}
                 {!userData ? '' : userData.length === 0 ? 'NO DATA FOUND' : ''}
+                {!isLoading && userData === undefined && (
+                  <span className='text-failure'>
+                    Filter is inactive and can't be tested for the time being.
+                  </span>
+                )}
               </div>
               <table className='w-full text-md text-left text-gray-600 relative'>
                 <thead className='text-sm text-gray-700 uppercase'>
@@ -501,7 +543,7 @@ const HomePage = ({ ResponseFromHome }) => {
 
           {/* </div> */}
         </div>
-        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2'>
+        <div className='bg-white py-2 px-4 drop-shadow-md mb-4 rounded-lg flex gap-2 items-center'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -516,7 +558,44 @@ const HomePage = ({ ResponseFromHome }) => {
               d='M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122'
             />
           </svg>
-          <span>Action Area</span>
+          {/* <span>Action Area</span> */}
+          {filterConstant !== '' &&
+          (apiActionConstant === '' || apiActionConstant === 'all') ? (
+            <>
+              <span className='bg-warning text-white py-1 px-2 rounded drop-shadow-md'>
+                Action Area. Choose an action to perform
+              </span>
+              <div>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth='1.5'
+                  stroke='currentColor'
+                  className='w-6 h-6 animate-bounce'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75'
+                  />
+                </svg>
+              </div>
+            </>
+          ) : (
+            <span
+              className={`${
+                filterConstant === '' || apiActionConstant === 'all'
+                  ? 'bg-disabledBase'
+                  : 'bg-success'
+              }  text-white py-1 px-2 rounded drop-shadow-md`}
+            >
+              {(filterConstant === '' && apiActionConstant === '') ||
+              apiActionConstant === 'all'
+                ? 'Action Area'
+                : 'Action chosen for execution'}
+            </span>
+          )}
         </div>
         <div className='bg-white mb-32 rounded-lg drop-shadow-md grid grid-cols-2 px-4'>
           <div className='p-4 border-r relative'>
@@ -541,45 +620,45 @@ const HomePage = ({ ResponseFromHome }) => {
               </div>
 
               <div className='flex gap-8'>
-                <span
+                <button
                   className={`${
                     apiActionConstant === 'create' &&
                     'border-2 border-success bg-tableSuccessTrans text-success'
-                  } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
-                  onClick={() =>
-                    filterConstant && setApiActionConstant('create')
-                  }
+                  } p-2 border rounded-md cursor-pointer drop-shadow-lg disabled:drop-shadow-none disabled:bg-offWhiteBase disabled:cursor-not-allowed`}
+                  disabled={filterConstant === ''}
+                  onClick={() => filterConstant && toggleAction('create')}
                 >
                   Create
-                </span>
-                <span
+                </button>
+                <button
                   className={`${
                     apiActionConstant === 'search' &&
                     'border-2 border-success bg-tableSuccessTrans text-success'
-                  } p-2 border rounded-md cursor-pointer drop-shadow-lg`}
-                  onClick={() =>
-                    filterConstant && setApiActionConstant('search')
-                  }
+                  } p-2 border rounded-md cursor-pointer drop-shadow-lg disabled:drop-shadow-none disabled:bg-offWhiteBase disabled:cursor-not-allowed`}
+                  disabled={filterConstant === ''}
+                  onClick={() => filterConstant && toggleAction('search')}
                 >
                   Search
-                </span>
+                </button>
               </div>
             </div>
             <input
               type='text'
               id='large-input'
               placeholder='Enter a username ...'
-              disabled={
-                (!filterConstant && !apiActionConstant) ||
-                apiActionConstant == 'all'
-              }
+              disabled={filterConstant === '' || apiActionConstant === ''}
               onChange={(e) => setUserName(e.target.value)}
               value={username}
-              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-6 mt-3'
+              className='drop=shadow-md block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white sm:text-md focus:ring-blue-500 focus:border-blue-500 mb-6 mt-3 disabled:bg-offWhiteBase disabled:cursor-not-allowed'
             />
             <button
               type='button'
-              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2 w-[200px]'
+              disabled={
+                filterConstant === '' ||
+                apiActionConstant === 'all' ||
+                apiActionConstant === ''
+              }
+              className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2 w-[200px] disabled:bg-disabledBase disabled:cursor-not-allowed'
               onClick={handleApiCall}
             >
               <svg

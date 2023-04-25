@@ -26,7 +26,7 @@ module.exports = {
         warningColumnsGrid: '80px auto',
       },
       gridTemplateRows: {
-        warningRowsGrid: '50px auto'
+        warningRowsGrid: '50px auto',
       },
       colors: {
         success: '#01a745',
@@ -37,6 +37,8 @@ module.exports = {
         tableFailureTrans: 'rgba(210, 37, 0,0.1)',
         linkGreen: '#2B7A0B',
         warning: '#EBB02D',
+        offWhiteBase: '#ecf0f3',
+        disabledBase: "#9BA4B5",
         classical: {
           // 300: '#00FFFF',
           // 200: 'rgba(0, 255, 255,0.3)',
