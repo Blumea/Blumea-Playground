@@ -1,6 +1,7 @@
 import React from 'react'
 
 const EndpointMonitor = ({ variantType, actionType, userName, statusCode }) => {
+  const truncatedUser = userName.length>10?userName.substring(0,11)+"...":userName
   return (
     <div className='my-8 bg-white p-3 rounded-lg drop-shadow-md flex justify-between'>
       <div className='flex gap-2'>
@@ -30,7 +31,7 @@ const EndpointMonitor = ({ variantType, actionType, userName, statusCode }) => {
           variantType && `/api/${variantType}`
         }${actionType && `/${actionType}`}${
           userName && actionType !== 'all' && variantType && actionType
-            ? `?item=${userName}`
+            ? `?item=${truncatedUser}`
             : ``
         }`}</span>
       </div>

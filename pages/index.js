@@ -499,12 +499,20 @@ const HomePage = ({ ResponseFromHome }) => {
                               ? 'bg-cuckoo-100'
                               : 'bg-default-100'
                           }`}
+                          title={user._id}
                         >
-                          {user._id}
+                          {user._id.length > 10
+                            ? user._id.substring(0, 11) + '...'
+                            : user._id}
                         </th>
                         <td className='px-6 py-4'>{user.type}</td>
-                        <td className={`px-6 py-4 bg-${filterConstant}-100`}>
-                          {user.item}
+                        <td
+                          className={`px-6 py-4 bg-${filterConstant}-100`}
+                          title={user.item}
+                        >
+                          {user.item.length > 10
+                            ? user.item.substring(0, 11) + '...'
+                            : user.item}
                         </td>
                         <td className='px-6 py-4'>{user.size}</td>
                         <td className={`px-6 py-4 bg-${filterConstant}-100`}>
@@ -678,7 +686,7 @@ const HomePage = ({ ResponseFromHome }) => {
               Execute
             </button>
           </div>
-          <div className='px-4 pt-4'>
+          <div className='px-4 pt-4 overflow-clip'>
             <div className='flex gap-2 mb-3 flex-col items-center'>
               <div className='flex justify-between w-full items-center'>
                 <div className='flex gap-2'>
