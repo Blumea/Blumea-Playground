@@ -1,5 +1,6 @@
 import EndpointMonitor from '@/components/EndpointMonitor/EndpointMonitor.component'
 import FilterCard from '@/components/FilterCard/FilterCard.component'
+import ButtonLoader from '@/components/Loader/ButtonLoader'
 import Loader from '@/components/Loader/Loader'
 import {
   filterData,
@@ -31,6 +32,7 @@ const HomePage = ({ ResponseFromHome }) => {
       setTimer(false)
     }, [3000])
   }
+
 
   useEffect(() => {
     setUserData()
@@ -208,7 +210,7 @@ const HomePage = ({ ResponseFromHome }) => {
             viewBox='0 0 24 24'
             strokeWidth='1.5'
             stroke='currentColor'
-            className='w-6 h-6'
+            className={`${isLoading ? 'animate-spin' : ''} w-6 h-6 `}
           >
             <path
               strokeLinecap='round'
@@ -222,7 +224,7 @@ const HomePage = ({ ResponseFromHome }) => {
         <div className='bg-white p-4 drop-shadow-md rounded-lg'>
           <div className='mb-6 text-lg flex items-center justify-between'>
             <div>Working Status</div>
-            <div
+            {/* <div
               className={`${timer && 'animate-spin'} w-max cursor-pointer`}
               onClick={handleTimer}
             >
@@ -240,7 +242,7 @@ const HomePage = ({ ResponseFromHome }) => {
                   d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99'
                 />
               </svg>
-            </div>
+            </div> */}
           </div>
           <div>
             {filterData.map((filterItem, index) => (
@@ -258,6 +260,9 @@ const HomePage = ({ ResponseFromHome }) => {
               </div>
             ))}
           </div>
+          {/* <button className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-0 w-full mt-4 justify-center'>
+            Test Filters
+          </button> */}
         </div>
         <div className='border-r mt-80 p-3 sticky top-10'>
           {/* <div className=' top-10'> */}
@@ -370,21 +375,27 @@ const HomePage = ({ ResponseFromHome }) => {
             className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 w-full my-8 justify-center'
             onClick={handleApiCall}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth='1.5'
-              stroke='currentColor'
-              className='w-6 h-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
-              />
-            </svg>
-            Execute Request
+            {isLoading ? (
+              <ButtonLoader />
+            ) : (
+              <>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth='1.5'
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+                  />
+                </svg>
+                Execute Request
+              </>
+            )}
           </button>
         </div>
         {/* </div> */}
@@ -669,21 +680,27 @@ const HomePage = ({ ResponseFromHome }) => {
               className='drop-shadow-lg gap-3 text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2 my-8 justify-center absolute -bottom-8 left-1/2 -translate-x-1/2 w-[200px] disabled:bg-disabledBase disabled:cursor-not-allowed'
               onClick={handleApiCall}
             >
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
-                />
-              </svg>
-              Execute
+              {isLoading ? (
+                <ButtonLoader />
+              ) : (
+                <>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth='1.5'
+                    stroke='currentColor'
+                    className='w-6 h-6'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z'
+                    />
+                  </svg>
+                  Execute
+                </>
+              )}
             </button>
           </div>
           <div className='px-4 pt-4 overflow-clip'>
@@ -781,7 +798,7 @@ const HomePage = ({ ResponseFromHome }) => {
                       ? 'text-success'
                       : 'text-failure'
                     : 'text-warning'
-                } flex flex-col justify-center px-1 w-full `}
+                } flex flex-col justify-center px-1 w-full text-lg font-semibold`}
               >
                 {message}
               </div>

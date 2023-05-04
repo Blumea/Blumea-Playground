@@ -25,7 +25,7 @@ const filterData = [
     name: 'Scalable Filter',
     baseRoute: 'https://blumea-serverless.vercel.app',
     customRoute: '/api/scalable',
-    active: false,
+    active: true,
   },
   {
     id: 'cuckoo_filter',

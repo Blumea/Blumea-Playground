@@ -5,15 +5,10 @@ const Header = () => {
   return (
     <div className='flex  py-3 px-4 drop-shadow-lg border-b font-work_sans tracking-wide'>
       <div className='flex items-center w-full gap-2'>
-        <Image
-          src='/images/Logo.png'
-          width={30}
-          height={30}
-          alt='BlumeaLogo'
-        />
+        <Image src='/images/Logo.png' width={30} height={30} alt='BlumeaLogo' />
         <span className='text-xl font-semibold'>Blumea Playground</span>
         <Link
-          href={'#'}
+          href={'https://blumea.github.io/Blumea-UI/'}
           className='flex ml-8 items-center gap-2
         '
         >
@@ -35,10 +30,16 @@ const Header = () => {
         </Link>
       </div>
       <div className='flex items-center max-w-md w-full gap-8 justify-end'>
-        <Link href={'#'} className='flex gap-3 items-center'>
+        <Link
+          href={'https://docs-blumea.vercel.app/'}
+          className='flex gap-3 items-center'
+        >
           Documentation
         </Link>
-        <Link href={'#'} className='flex gap-3 items-center'>
+        <Link
+          href={'https://www.npmjs.com/package/blumea'}
+          className='flex gap-3 items-center'
+        >
           <Image src='/images/npm-logo.svg' width={30} height={30} alt='npm' />
           Package
         </Link>
