@@ -29,6 +29,8 @@ module.exports = {
         warningRowsGrid: '50px auto',
       },
       colors: {
+        beta: 'rgba(162, 210, 255, 1)',
+        betaBorder: 'rgba(0, 0, 255,0.6)',
         success: '#01a745',
         successTrans: 'rgb(1, 167, 69,0.4)',
         tableSuccessTrans: 'rgb(1, 167, 69,0.1)',
@@ -38,7 +40,7 @@ module.exports = {
         linkGreen: '#2B7A0B',
         warning: '#EBB02D',
         offWhiteBase: '#ecf0f3',
-        disabledBase: "#9BA4B5",
+        disabledBase: '#9BA4B5',
         classical: {
           // 300: '#00FFFF',
           // 200: 'rgba(0, 255, 255,0.3)',

@@ -1,3 +1,4 @@
+import Image from "next/image"
 const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
   return (
     <div className='bg-white max-w-xs w-full rounded-lg pt-8 pb-4 px-4 relative drop-shadow-md text-sm'>
@@ -18,10 +19,24 @@ const FilterCard = ({ id, name, baseRoute, customRoute, active }) => {
         </svg>
         <span
           className={`${
-            active ? 'bg-success' : 'bg-failure'
+            active ? 'bg-success' : 'bg-success'
           } text-white py-1 px-2 rounded-md text-sm font-light`}
         >
-          {active ? 'Active' : 'Inactive'}
+          {active ? (
+            'Active'
+          ) : (
+            <div className='relative'>
+              <span>Active</span>{' '}
+              <div className='absolute -right-6 -bottom-4'>
+                <Image
+                  src='/images/beta.png'
+                  alt='beta'
+                  width={30}
+                  height={30}
+                />
+              </div>
+            </div>
+          )}
         </span>
       </div>
       <div className='my-1'>

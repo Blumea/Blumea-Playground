@@ -33,7 +33,6 @@ const HomePage = ({ ResponseFromHome }) => {
     }, [3000])
   }
 
-
   useEffect(() => {
     setUserData()
     setLoading(true)
@@ -110,6 +109,8 @@ const HomePage = ({ ResponseFromHome }) => {
       setApiActionConstant('')
     } else {
       setFilterConstant(id)
+      // setApiActionConstant('all')
+      // setUserName('')
     }
   }
   const toggleAction = (action) => {
@@ -253,8 +254,16 @@ const HomePage = ({ ResponseFromHome }) => {
                     Active
                   </span>
                 ) : (
-                  <span className='bg-failureTrans text-sm border-2 border-failure py-1 px-2 rounded-md drop-shadow-lg'>
-                    Inactive
+                  <span className='bg-successTrans text-sm border-2 border-success py-1 px-2 rounded-md drop-shadow-lg relative'>
+                    <span> Active</span>
+                    <div className='absolute -right-4 -bottom-4'>
+                      <Image
+                        src='/images/beta.png'
+                        alt='beta'
+                        width={30}
+                        height={30}
+                      />
+                    </div>
                   </span>
                 )}
               </div>
@@ -452,8 +461,8 @@ const HomePage = ({ ResponseFromHome }) => {
                 {isLoading && <Loader />}
                 {!userData ? '' : userData.length === 0 ? 'NO DATA FOUND' : ''}
                 {!isLoading && userData === undefined && (
-                  <span className='text-failure'>
-                    Filter is inactive and can't be tested for the time being.
+                  <span className='text-betaBorder'>
+                    Filter is in test phase, you can try out soon.
                   </span>
                 )}
               </div>
@@ -486,6 +495,11 @@ const HomePage = ({ ResponseFromHome }) => {
                     <th scope='col' className='px-6 py-3 tracking-widest'>
                       Size
                     </th>
+                    {filterConstant === 'counting' && (
+                      <th scope='col' className='px-6 py-3 tracking-widest'>
+                        Count
+                      </th>
+                    )}
                     <th scope='col' className='px-6 py-3 tracking-widest'>
                       Created At
                     </th>
@@ -526,7 +540,18 @@ const HomePage = ({ ResponseFromHome }) => {
                             : user.item}
                         </td>
                         <td className='px-6 py-4'>{user.size}</td>
-                        <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                        {filterConstant === 'counting' && (
+                          <td className={`px-6 py-4 bg-${filterConstant}-100`}>
+                            {user.metadata ? user.metadata.count : ''}
+                          </td>
+                        )}
+                        <td
+                          className={`${
+                            filterConstant === 'counting'
+                              ? ''
+                              : `bg-${filterConstant}-100`
+                          } px-6 py-4`}
+                        >
                           {user.created}
                         </td>
                       </tr>
@@ -798,7 +823,7 @@ const HomePage = ({ ResponseFromHome }) => {
                       ? 'text-success'
                       : 'text-failure'
                     : 'text-warning'
-                } flex flex-col justify-center px-1 w-full text-lg font-semibold`}
+                } flex flex-col justify-center px-1 w-full text-lg`}
               >
                 {message}
               </div>
