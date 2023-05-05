@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 
 const useWindowDimensions = () => {
   const [windowDimensions, setWindowDimensions] = useState({
-    width: undefined,
-    height: undefined,
+    width: 1366,
+    height: 768,
   })
   useEffect(() => {
     function handleResize() {
